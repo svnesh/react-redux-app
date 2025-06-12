@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import SingleProductPage from "./SingleProductPage";
+import { getProducts } from "../store/ProductSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 // const testProduct = [
 //   {
@@ -41,13 +43,16 @@ import SingleProductPage from "./SingleProductPage";
 
 const ProductPage = () => {
 
-  const [products, getProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.data);
+  
   useEffect(() => {
     async function fetchProducts() {
       try{
-        const allProducts = await fetch('https://fakestoreapi.com/products');
-        const data = await allProducts.json();
-        getProducts(data);
+        dispatch(getProducts());
+        // const allProducts = await fetch('https://fakestoreapi.com/products');
+        // const data = await allProducts.json();
+        // getProducts(data);
       } catch(error) {
         console.log("Failed to load data", error);
       }
